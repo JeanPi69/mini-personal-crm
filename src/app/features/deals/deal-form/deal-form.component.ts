@@ -21,24 +21,24 @@ import { DEAL_STAGES, DealStage } from '../../../core/models/deal.model';
   template: `
     <div class="max-w-2xl mx-auto space-y-5">
       <div class="flex items-center gap-3">
-        <a routerLink="/deals" class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+        <a routerLink="/deals" class="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
           </svg>
         </a>
         <div>
-          <h1 class="text-2xl font-bold text-gray-900">{{ isEdit() ? 'Edit Deal' : 'New Deal' }}</h1>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ isEdit() ? 'Edit Deal' : 'New Deal' }}</h1>
         </div>
       </div>
 
-      <div class="bg-white rounded-xl border border-gray-200 p-6">
+      <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1.5">Deal Title *</label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Deal Title *</label>
             <input
               type="text"
               formControlName="title"
-              class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               [class.border-red-400]="isInvalid('title')"
             />
             @if (isInvalid('title')) { <p class="text-red-500 text-xs mt-1">Title is required.</p> }
@@ -46,10 +46,10 @@ import { DEAL_STAGES, DealStage } from '../../../core/models/deal.model';
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5">Contact *</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Contact *</label>
               <select
                 formControlName="contactId"
-                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white"
+                class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 [class.border-red-400]="isInvalid('contactId')"
               >
                 <option value="">Select a contact</option>
@@ -61,22 +61,22 @@ import { DEAL_STAGES, DealStage } from '../../../core/models/deal.model';
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5">Value ($) *</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Value ($) *</label>
               <input
                 type="number"
                 formControlName="value"
                 min="0"
-                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 [class.border-red-400]="isInvalid('value')"
               />
               @if (isInvalid('value')) { <p class="text-red-500 text-xs mt-1">Value is required.</p> }
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1.5">Stage</label>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Stage</label>
               <select
                 formControlName="stage"
-                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white"
+                class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 @for (s of dealStages; track s.value) {
                   <option [value]="s.value">{{ s.label }}</option>
@@ -86,16 +86,16 @@ import { DEAL_STAGES, DealStage } from '../../../core/models/deal.model';
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1.5">Description</label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Description</label>
             <textarea
               formControlName="description"
               rows="3"
-              class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
+              class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
             ></textarea>
           </div>
 
           <div class="flex justify-end gap-3 pt-2">
-            <a routerLink="/deals" class="px-4 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+            <a routerLink="/deals" class="px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">
               Cancel
             </a>
             <button

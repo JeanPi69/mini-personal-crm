@@ -23,8 +23,8 @@ import { DatePipe } from '@angular/common';
       <!-- Header -->
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900">Tasks</h1>
-          <p class="text-gray-500 text-sm mt-0.5">{{ tasksService.pendingTasks() }} pending</p>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Tasks</h1>
+          <p class="text-gray-500 dark:text-gray-400 text-sm mt-0.5">{{ tasksService.pendingTasks() }} pending</p>
         </div>
         <a
           routerLink="/tasks/new"
@@ -42,7 +42,7 @@ import { DatePipe } from '@angular/common';
         <select
           [ngModel]="statusFilter()"
           (ngModelChange)="statusFilter.set($event)"
-          class="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white"
+          class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
         >
           <option value="">All statuses</option>
           <option value="pending">Pending</option>
@@ -52,7 +52,7 @@ import { DatePipe } from '@angular/common';
         <select
           [ngModel]="priorityFilter()"
           (ngModelChange)="priorityFilter.set($event)"
-          class="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white"
+          class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
         >
           <option value="">All priorities</option>
           <option value="high">High</option>
@@ -62,7 +62,7 @@ import { DatePipe } from '@angular/common';
       </div>
 
       <!-- Task list -->
-      <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
         @if (tasksService.loading()) {
           <div class="flex items-center justify-center py-16">
             <svg class="animate-spin h-8 w-8 text-primary-500" fill="none" viewBox="0 0 24 24">
@@ -73,22 +73,22 @@ import { DatePipe } from '@angular/common';
         } @else if (filteredTasks().length === 0) {
           <p class="text-center text-sm text-gray-500 py-12">No tasks found.</p>
         } @else {
-          <div class="divide-y divide-gray-100">
+          <div class="divide-y divide-gray-100 dark:divide-gray-700">
             @for (task of filteredTasks(); track task.id) {
-              <div class="flex items-center gap-4 px-5 py-4 hover:bg-gray-50 transition-colors">
+              <div class="flex items-center gap-4 px-5 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                 <!-- Priority dot -->
                 <span class="w-2 h-2 rounded-full shrink-0" [class]="getPriorityDot(task.priority)"></span>
 
                 <!-- Content -->
                 <div class="flex-1 min-w-0">
-                  <p class="font-medium text-sm text-gray-900" [class.line-through]="task.status === 'completed'">
+                  <p class="font-medium text-sm text-gray-900 dark:text-white" [class.line-through]="task.status === 'completed'">
                     {{ task.title }}
                   </p>
                   <div class="flex items-center gap-3 mt-0.5">
                     @if (getContactName(task.contactId); as name) {
-                      <span class="text-xs text-gray-500">{{ name }}</span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">{{ name }}</span>
                     }
-                    <span class="text-xs text-gray-400">Due: {{ task.dueDate | date: 'mediumDate' }}</span>
+                    <span class="text-xs text-gray-400 dark:text-gray-500">Due: {{ task.dueDate | date: 'mediumDate' }}</span>
                   </div>
                 </div>
 
@@ -130,11 +130,11 @@ import { DatePipe } from '@angular/common';
       <!-- Delete dialog -->
       @if (deleteTarget()) {
         <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-          <div class="bg-white rounded-xl shadow-2xl p-6 max-w-sm w-full">
-            <h3 class="font-bold text-gray-900 text-lg">Delete Task</h3>
-            <p class="text-gray-600 text-sm mt-2">Delete <strong>{{ deleteTarget()!.title }}</strong>?</p>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-6 max-w-sm w-full">
+            <h3 class="font-bold text-gray-900 dark:text-white text-lg">Delete Task</h3>
+            <p class="text-gray-600 dark:text-gray-300 text-sm mt-2">Delete <strong>{{ deleteTarget()!.title }}</strong>?</p>
             <div class="flex justify-end gap-3 mt-5">
-              <button (click)="deleteTarget.set(null)" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg">Cancel</button>
+              <button (click)="deleteTarget.set(null)" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg">Cancel</button>
               <button (click)="deleteTask()" class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg">Delete</button>
             </div>
           </div>

@@ -9,7 +9,7 @@ import { AuthService } from '../../core/services/auth.service';
   imports: [RouterOutlet, SidebarComponent, NavbarComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="flex h-screen bg-gray-50 overflow-hidden">
+    <div class="flex h-screen bg-gray-50 dark:bg-gray-950 overflow-hidden">
       <!-- Sidebar -->
       <app-sidebar [collapsed]="sidebarCollapsed()" (toggleCollapse)="toggleSidebar()" />
 

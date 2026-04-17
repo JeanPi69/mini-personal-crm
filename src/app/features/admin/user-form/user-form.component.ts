@@ -19,56 +19,56 @@ import { UserRole } from '../../../core/models/user.model';
   template: `
     <div class="max-w-lg mx-auto space-y-5">
       <div class="flex items-center gap-3">
-        <a routerLink="/admin/users" class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+        <a routerLink="/admin/users" class="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
           </svg>
         </a>
-        <h1 class="text-2xl font-bold text-gray-900">{{ isEdit() ? 'Edit User' : 'New User' }}</h1>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ isEdit() ? 'Edit User' : 'New User' }}</h1>
       </div>
 
-      <div class="bg-white rounded-xl border border-gray-200 p-6">
+      <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1.5">Full Name *</label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Full Name *</label>
             <input
               type="text"
               formControlName="name"
-              class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+              class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500"
               [class.border-red-400]="isInvalid('name')"
             />
             @if (isInvalid('name')) { <p class="text-red-500 text-xs mt-1">Name is required.</p> }
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1.5">Email *</label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Email *</label>
             <input
               type="email"
               formControlName="email"
-              class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+              class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500"
               [class.border-red-400]="isInvalid('email')"
             />
             @if (isInvalid('email')) { <p class="text-red-500 text-xs mt-1">Valid email is required.</p> }
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1.5">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
               Password {{ isEdit() ? '(leave blank to keep current)' : '*' }}
             </label>
             <input
               type="password"
               formControlName="password"
-              class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+              class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500"
               [class.border-red-400]="isInvalid('password')"
             />
             @if (isInvalid('password')) { <p class="text-red-500 text-xs mt-1">Password is required (min 6 chars).</p> }
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1.5">Role</label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Role</label>
             <select
               formControlName="role"
-              class="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white"
+              class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             >
               <option value="user">User</option>
               <option value="admin">Admin</option>
@@ -76,7 +76,7 @@ import { UserRole } from '../../../core/models/user.model';
           </div>
 
           <div class="flex justify-end gap-3 pt-2">
-            <a routerLink="/admin/users" class="px-4 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+            <a routerLink="/admin/users" class="px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">
               Cancel
             </a>
             <button

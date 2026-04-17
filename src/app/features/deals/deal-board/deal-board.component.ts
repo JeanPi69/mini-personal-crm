@@ -2,27 +2,37 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
+  effect,
   inject,
   signal,
+  untracked,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import {
+  CdkDropList,
+  CdkDrag,
+  CdkDropListGroup,
+  CdkDragDrop,
+  transferArrayItem,
+  moveItemInArray,
+} from '@angular/cdk/drag-drop';
 import { DealsService } from '../../../core/services/deals.service';
 import { ContactsService } from '../../../core/services/contacts.service';
 import { ToastService } from '../../../core/services/toast.service';
-import { Deal, DEAL_STAGES, DealStage } from '../../../core/models/deal.model';
+import { Deal, DealStage } from '../../../core/models/deal.model';
 import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-deal-board',
-  imports: [RouterLink, DecimalPipe],
+  imports: [RouterLink, DecimalPipe, CdkDropListGroup, CdkDropList, CdkDrag],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="space-y-5">
       <!-- Header -->
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900">Deals</h1>
-          <p class="text-gray-500 text-sm mt-0.5">
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Deals</h1>
+          <p class="text-gray-500 dark:text-gray-400 text-sm mt-0.5">
             Pipeline value: <strong>\${{ dealsService.totalValue() | number: '1.0-0' }}</strong>
           </p>
         </div>
@@ -46,35 +56,45 @@ import { DecimalPipe } from '@angular/common';
           </svg>
         </div>
       } @else {
-        <div class="flex gap-4 overflow-x-auto pb-4">
+        <div cdkDropListGroup class="flex gap-4 overflow-x-auto pb-4">
           @for (stage of stages; track stage.value) {
             <div class="flex-shrink-0 w-64">
               <!-- Column header -->
               <div class="flex items-center justify-between mb-3">
                 <div class="flex items-center gap-2">
                   <span class="w-2.5 h-2.5 rounded-full" [class]="stage.dotClass"></span>
-                  <span class="text-sm font-semibold text-gray-700">{{ stage.label }}</span>
+                  <span class="text-sm font-semibold text-gray-700 dark:text-gray-200">{{ stage.label }}</span>
                 </div>
-                <span class="text-xs bg-gray-100 text-gray-500 rounded-full px-2 py-0.5">
-                  {{ dealsByStage()[stage.value]?.length ?? 0 }}
+                <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 rounded-full px-2 py-0.5">
+                  {{ (boardState()[stage.value] ?? []).length }}
                 </span>
               </div>
 
               <!-- Stage value -->
-              <p class="text-xs text-gray-500 mb-3">
+              <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">
                 \${{ stageTotal(stage.value) | number: '1.0-0' }}
               </p>
 
-              <!-- Cards -->
-              <div class="space-y-2 min-h-[100px]">
-                @for (deal of dealsByStage()[stage.value] ?? []; track deal.id) {
-                  <div class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow">
+              <!-- Drop zone -->
+              <div
+                cdkDropList
+                [id]="stage.value"
+                [cdkDropListData]="boardState()[stage.value] ?? []"
+                (cdkDropListDropped)="onDrop($event)"
+                class="space-y-2 min-h-[100px] rounded-lg p-1 transition-colors"
+              >
+                @for (deal of boardState()[stage.value] ?? []; track deal.id) {
+                  <div
+                    cdkDrag
+                    [cdkDragData]="deal"
+                    class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm hover:shadow-md transition-shadow cursor-grab active:cursor-grabbing"
+                  >
                     <div class="flex items-start justify-between gap-2 mb-2">
-                      <p class="font-medium text-sm text-gray-900 leading-tight">{{ deal.title }}</p>
+                      <p class="font-medium text-sm text-gray-900 dark:text-white leading-tight">{{ deal.title }}</p>
                       <div class="flex gap-1 shrink-0">
                         <a
                           [routerLink]="['/deals', deal.id, 'edit']"
-                          class="p-1 text-gray-400 hover:text-primary-600 rounded transition-colors"
+                          class="p-1 text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 rounded transition-colors"
                           title="Edit"
                         >
                           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -93,31 +113,11 @@ import { DecimalPipe } from '@angular/common';
                       </div>
                     </div>
 
-                    <p class="text-base font-bold text-gray-900">\${{ deal.value | number: '1.0-0' }}</p>
+                    <p class="text-base font-bold text-gray-900 dark:text-white">\${{ deal.value | number: '1.0-0' }}</p>
 
                     @if (getContactName(deal.contactId); as name) {
-                      <p class="text-xs text-gray-500 mt-1">{{ name }}</p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ name }}</p>
                     }
-
-                    <!-- Stage move buttons -->
-                    <div class="flex gap-1 mt-3 pt-2 border-t border-gray-100">
-                      @if (!isFirstStage(stage.value)) {
-                        <button
-                          (click)="moveStage(deal, -1)"
-                          class="flex-1 text-xs py-1 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded transition-colors"
-                        >
-                          ← Move back
-                        </button>
-                      }
-                      @if (!isLastStage(stage.value)) {
-                        <button
-                          (click)="moveStage(deal, 1)"
-                          class="flex-1 text-xs py-1 bg-primary-50 hover:bg-primary-100 text-primary-700 rounded transition-colors"
-                        >
-                          Advance →
-                        </button>
-                      }
-                    </div>
                   </div>
                 }
               </div>
@@ -129,13 +129,13 @@ import { DecimalPipe } from '@angular/common';
       <!-- Delete dialog -->
       @if (deleteTarget()) {
         <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-          <div class="bg-white rounded-xl shadow-2xl p-6 max-w-sm w-full">
-            <h3 class="font-bold text-gray-900 text-lg">Delete Deal</h3>
-            <p class="text-gray-600 text-sm mt-2">
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-6 max-w-sm w-full">
+            <h3 class="font-bold text-gray-900 dark:text-white text-lg">Delete Deal</h3>
+            <p class="text-gray-600 dark:text-gray-300 text-sm mt-2">
               Are you sure you want to delete <strong>{{ deleteTarget()!.title }}</strong>?
             </p>
             <div class="flex justify-end gap-3 mt-5">
-              <button (click)="deleteTarget.set(null)" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">Cancel</button>
+              <button (click)="deleteTarget.set(null)" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">Cancel</button>
               <button (click)="deleteDeal()" class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors">Delete</button>
             </div>
           </div>
@@ -150,7 +150,7 @@ export class DealBoardComponent implements OnInit {
   private readonly toast = inject(ToastService);
 
   readonly deleteTarget = signal<Deal | null>(null);
-  readonly dealsByStage = this.dealsService.dealsByStage;
+  readonly boardState = signal<Record<DealStage, Deal[]>>({} as Record<DealStage, Deal[]>);
 
   readonly stages = [
     { value: 'lead' as DealStage, label: 'Lead', dotClass: 'bg-blue-400' },
@@ -160,7 +160,12 @@ export class DealBoardComponent implements OnInit {
     { value: 'closed-lost' as DealStage, label: 'Closed Lost', dotClass: 'bg-red-400' },
   ];
 
-  private readonly stageOrder = this.stages.map((s) => s.value);
+  constructor() {
+    effect(() => {
+      const state = this.dealsService.dealsByStage();
+      untracked(() => this.boardState.set(structuredClone(state)));
+    });
+  }
 
   ngOnInit(): void {
     this.dealsService.loadDeals();
@@ -168,27 +173,43 @@ export class DealBoardComponent implements OnInit {
   }
 
   stageTotal(stage: DealStage): number {
-    return (this.dealsByStage()[stage] ?? []).reduce((s, d) => s + d.value, 0);
+    return (this.boardState()[stage] ?? []).reduce((s, d) => s + d.value, 0);
   }
 
   getContactName(contactId: string): string {
     return this.contactsService.contacts().find((c) => c.id === contactId)?.name ?? '';
   }
 
-  isFirstStage(stage: DealStage): boolean {
-    return this.stageOrder.indexOf(stage) === 0;
-  }
+  onDrop(event: CdkDragDrop<Deal[]>): void {
+    if (event.previousContainer === event.container) {
+      const stage = event.container.id as DealStage;
+      this.boardState.update((state) => {
+        const arr = [...(state[stage] ?? [])];
+        moveItemInArray(arr, event.previousIndex, event.currentIndex);
+        return { ...state, [stage]: arr };
+      });
+      return;
+    }
 
-  isLastStage(stage: DealStage): boolean {
-    return this.stageOrder.indexOf(stage) === this.stageOrder.length - 1;
-  }
+    const fromStage = event.previousContainer.id as DealStage;
+    const toStage = event.container.id as DealStage;
+    const deal = event.item.data as Deal;
 
-  moveStage(deal: Deal, direction: 1 | -1): void {
-    const idx = this.stageOrder.indexOf(deal.stage);
-    const newStage = this.stageOrder[idx + direction];
-    if (!newStage) return;
-    this.dealsService.update(deal.id, { ...deal, stage: newStage }).subscribe({
-      error: () => this.toast.error('Failed to update deal stage.'),
+    // Optimistic update
+    this.boardState.update((state) => {
+      const from = [...(state[fromStage] ?? [])];
+      const to = [...(state[toStage] ?? [])];
+      transferArrayItem(from, to, event.previousIndex, event.currentIndex);
+      to[event.currentIndex] = { ...to[event.currentIndex], stage: toStage };
+      return { ...state, [fromStage]: from, [toStage]: to };
+    });
+
+    // Persist to server
+    this.dealsService.update(deal.id, { ...deal, stage: toStage }).subscribe({
+      error: () => {
+        this.boardState.set(structuredClone(this.dealsService.dealsByStage()));
+        this.toast.error('Failed to move deal.');
+      },
     });
   }
 

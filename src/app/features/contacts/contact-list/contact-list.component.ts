@@ -21,8 +21,8 @@ import { Contact, ContactStatus } from '../../../core/models/contact.model';
       <!-- Header -->
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900">Contacts</h1>
-          <p class="text-gray-500 text-sm mt-0.5">{{ contacts.totalContacts() }} total</p>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Contacts</h1>
+          <p class="text-gray-500 dark:text-gray-400 text-sm mt-0.5">{{ contacts.totalContacts() }} total</p>
         </div>
         <a
           routerLink="/contacts/new"
@@ -41,11 +41,11 @@ import { Contact, ContactStatus } from '../../../core/models/contact.model';
           type="text"
           [ngModel]="searchQuery()" (ngModelChange)="searchQuery.set($event)"
           placeholder="Search by name, email or company..."
-          class="flex-1 min-w-[200px] px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+          class="flex-1 min-w-[200px] px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
         />
         <select
           [ngModel]="statusFilter()" (ngModelChange)="statusFilter.set($event)"
-          class="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white"
+          class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
         >
           <option value="">All statuses</option>
           <option value="active">Active</option>
@@ -55,7 +55,7 @@ import { Contact, ContactStatus } from '../../../core/models/contact.model';
       </div>
 
       <!-- Table -->
-      <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
         @if (contacts.loading()) {
           <div class="flex items-center justify-center py-16">
             <svg class="animate-spin h-8 w-8 text-primary-500" fill="none" viewBox="0 0 24 24">
@@ -70,31 +70,31 @@ import { Contact, ContactStatus } from '../../../core/models/contact.model';
           </div>
         } @else {
           <table class="w-full text-sm">
-            <thead class="bg-gray-50 border-b border-gray-200">
+            <thead class="bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700">
               <tr>
-                <th class="text-left px-5 py-3 font-medium text-gray-600">Name</th>
-                <th class="text-left px-5 py-3 font-medium text-gray-600 hidden md:table-cell">Company</th>
-                <th class="text-left px-5 py-3 font-medium text-gray-600 hidden lg:table-cell">Email</th>
-                <th class="text-left px-5 py-3 font-medium text-gray-600">Status</th>
-                <th class="text-right px-5 py-3 font-medium text-gray-600">Actions</th>
+                <th class="text-left px-5 py-3 font-medium text-gray-600 dark:text-gray-300">Name</th>
+                <th class="text-left px-5 py-3 font-medium text-gray-600 dark:text-gray-300 hidden md:table-cell">Company</th>
+                <th class="text-left px-5 py-3 font-medium text-gray-600 dark:text-gray-300 hidden lg:table-cell">Email</th>
+                <th class="text-left px-5 py-3 font-medium text-gray-600 dark:text-gray-300">Status</th>
+                <th class="text-right px-5 py-3 font-medium text-gray-600 dark:text-gray-300">Actions</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-gray-100">
+            <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
               @for (contact of filteredContacts(); track contact.id) {
-                <tr class="hover:bg-gray-50 transition-colors">
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                   <td class="px-5 py-3">
                     <a [routerLink]="['/contacts', contact.id]" class="flex items-center gap-3 group">
                       <div class="w-8 h-8 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center font-semibold text-xs shrink-0">
                         {{ contact.name.charAt(0) }}
                       </div>
                       <div>
-                        <p class="font-medium text-gray-900 group-hover:text-primary-600 transition-colors">{{ contact.name }}</p>
-                        <p class="text-gray-500 text-xs">{{ contact.phone }}</p>
+                        <p class="font-medium text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">{{ contact.name }}</p>
+                        <p class="text-gray-500 dark:text-gray-400 text-xs">{{ contact.phone }}</p>
                       </div>
                     </a>
                   </td>
-                  <td class="px-5 py-3 text-gray-600 hidden md:table-cell">{{ contact.company }}</td>
-                  <td class="px-5 py-3 text-gray-600 hidden lg:table-cell">{{ contact.email }}</td>
+                  <td class="px-5 py-3 text-gray-600 dark:text-gray-300 hidden md:table-cell">{{ contact.company }}</td>
+                  <td class="px-5 py-3 text-gray-600 dark:text-gray-300 hidden lg:table-cell">{{ contact.email }}</td>
                   <td class="px-5 py-3">
                     <span class="text-xs px-2 py-0.5 rounded-full font-medium" [class]="getStatusClass(contact.status)">
                       {{ contact.status }}
@@ -132,16 +132,16 @@ import { Contact, ContactStatus } from '../../../core/models/contact.model';
       <!-- Delete confirmation dialog -->
       @if (deleteTarget()) {
         <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-          <div class="bg-white rounded-xl shadow-2xl p-6 max-w-sm w-full">
-            <h3 class="font-bold text-gray-900 text-lg">Delete Contact</h3>
-            <p class="text-gray-600 text-sm mt-2">
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-6 max-w-sm w-full">
+            <h3 class="font-bold text-gray-900 dark:text-white text-lg">Delete Contact</h3>
+            <p class="text-gray-600 dark:text-gray-300 text-sm mt-2">
               Are you sure you want to delete <strong>{{ deleteTarget()!.name }}</strong>?
               This action cannot be undone.
             </p>
             <div class="flex justify-end gap-3 mt-5">
               <button
                 (click)="deleteTarget.set(null)"
-                class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors"
               >
                 Cancel
               </button>

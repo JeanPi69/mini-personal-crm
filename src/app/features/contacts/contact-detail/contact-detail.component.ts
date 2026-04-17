@@ -29,7 +29,7 @@ type Tab = 'deals' | 'tasks' | 'notes';
   template: `
     <div class="space-y-5">
       <!-- Back -->
-      <a routerLink="/contacts" class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700">
+      <a routerLink="/contacts" class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100 transition-colors">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
         </svg>
@@ -46,25 +46,25 @@ type Tab = 'deals' | 'tasks' | 'notes';
       } @else if (contact()) {
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
           <!-- Contact card -->
-          <div class="xl:col-span-1 bg-white rounded-xl border border-gray-200 p-6 space-y-5">
+          <div class="xl:col-span-1 bg-white dark:bg-gray-800 rounded-xl border border-gray-300 dark:border-gray-600 p-6 space-y-5">
             <div class="flex items-center gap-4">
               <div class="w-14 h-14 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center font-bold text-xl">
                 {{ contact()!.name.charAt(0) }}
               </div>
               <div>
-                <h1 class="text-xl font-bold text-gray-900">{{ contact()!.name }}</h1>
-                <p class="text-gray-500 text-sm">{{ contact()!.company }}</p>
+                <h1 class="text-xl font-bold text-gray-900 dark:text-white">{{ contact()!.name }}</h1>
+                <p class="text-gray-500 dark:text-gray-300 text-sm">{{ contact()!.company }}</p>
               </div>
             </div>
 
             <div class="space-y-3 text-sm">
-              <div class="flex items-center gap-2 text-gray-600">
+              <div class="flex items-center gap-2 text-gray-600 dark:text-gray-300">
                 <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
                 {{ contact()!.email }}
               </div>
-              <div class="flex items-center gap-2 text-gray-600">
+              <div class="flex items-center gap-2 text-gray-600 dark:text-gray-300">
                 <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                 </svg>
@@ -81,7 +81,7 @@ type Tab = 'deals' | 'tasks' | 'notes';
             <div class="pt-2 border-t border-gray-100">
               <a
                 [routerLink]="['/contacts', contact()!.id, 'edit']"
-                class="block w-full text-center px-4 py-2 text-sm font-medium text-primary-600 border border-primary-200 hover:bg-primary-50 rounded-lg transition-colors"
+                class="block w-full text-center px-4 py-2 text-sm font-medium text-primary-600 dark:text-white border border-primary-200 hover:bg-primary-50 dark:hover:bg-primary-700 dark:bg-primary-600 rounded-lg transition-colors"
               >
                 Edit Contact
               </a>
@@ -91,17 +91,17 @@ type Tab = 'deals' | 'tasks' | 'notes';
           <!-- Tabs -->
           <div class="xl:col-span-2 space-y-4">
             <!-- Tab bar -->
-            <div class="flex border-b border-gray-200">
+            <div class="flex border-b border-gray-200 dark:border-gray-700">
               @for (tab of tabs; track tab.id) {
                 <button
                   (click)="activeTab.set(tab.id)"
                   class="px-5 py-2.5 text-sm font-medium border-b-2 transition-colors"
                   [class]="activeTab() === tab.id
-                    ? 'border-primary-500 text-primary-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700'"
+                    ? 'border-primary-500 text-primary-600 dark:text-primary-400'
+                    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'"
                 >
                   {{ tab.label }}
-                  <span class="ml-1.5 text-xs bg-gray-100 text-gray-600 rounded-full px-1.5 py-0.5">
+                  <span class="ml-1.5 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-1.5 py-0.5">
                     {{ tab.count() }}
                   </span>
                 </button>
@@ -110,15 +110,15 @@ type Tab = 'deals' | 'tasks' | 'notes';
 
             <!-- Deals tab -->
             @if (activeTab() === 'deals') {
-              <div class="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
+              <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 divide-y divide-gray-100 dark:divide-gray-700">
                 @if (deals().length === 0) {
-                  <p class="text-center text-sm text-gray-500 py-10">No deals yet.</p>
+                  <p class="text-center text-sm text-gray-500 dark:text-gray-400 py-10">No deals yet.</p>
                 }
                 @for (deal of deals(); track deal.id) {
                   <div class="flex items-center justify-between px-5 py-3">
                     <div>
-                      <p class="font-medium text-sm text-gray-900">{{ deal.title }}</p>
-                      <p class="text-xs text-gray-500">\${{ deal.value | number: '1.0-0' }}</p>
+                      <p class="font-medium text-sm text-gray-900 dark:text-white">{{ deal.title }}</p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400">\${{ deal.value | number: '1.0-0' }}</p>
                     </div>
                     <span class="text-xs px-2 py-0.5 rounded-full font-medium" [class]="getStageClass(deal.stage)">
                       {{ deal.stage }}
@@ -130,15 +130,15 @@ type Tab = 'deals' | 'tasks' | 'notes';
 
             <!-- Tasks tab -->
             @if (activeTab() === 'tasks') {
-              <div class="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
+              <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 divide-y divide-gray-100 dark:divide-gray-700">
                 @if (tasks().length === 0) {
-                  <p class="text-center text-sm text-gray-500 py-10">No tasks yet.</p>
+                  <p class="text-center text-sm text-gray-500 dark:text-gray-400 py-10">No tasks yet.</p>
                 }
                 @for (task of tasks(); track task.id) {
                   <div class="flex items-center justify-between px-5 py-3">
                     <div>
-                      <p class="font-medium text-sm text-gray-900">{{ task.title }}</p>
-                      <p class="text-xs text-gray-500">Due: {{ task.dueDate | date: 'mediumDate' }}</p>
+                      <p class="font-medium text-sm text-gray-900 dark:text-white">{{ task.title }}</p>
+                      <p class="text-xs text-gray-500 dark:text-gray-400">Due: {{ task.dueDate | date: 'mediumDate' }}</p>
                     </div>
                     <span class="text-xs px-2 py-0.5 rounded-full font-medium" [class]="getTaskStatusClass(task.status)">
                       {{ task.status }}
@@ -152,13 +152,13 @@ type Tab = 'deals' | 'tasks' | 'notes';
             @if (activeTab() === 'notes') {
               <div class="space-y-3">
                 <!-- Add note form -->
-                <div class="bg-white rounded-xl border border-gray-200 p-4">
+                <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4">
                   <form [formGroup]="noteForm" (ngSubmit)="addNote()">
                     <textarea
                       formControlName="content"
                       rows="3"
                       placeholder="Add a note..."
-                      class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 resize-none focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     ></textarea>
                     <div class="flex justify-end mt-2">
                       <button
@@ -175,15 +175,15 @@ type Tab = 'deals' | 'tasks' | 'notes';
                 <!-- Notes list -->
                 <div class="space-y-2">
                   @for (note of notes(); track note.id) {
-                    <div class="bg-white rounded-xl border border-gray-200 p-4">
-                      <p class="text-sm text-gray-700">{{ note.content }}</p>
+                    <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4">
+                      <p class="text-sm text-gray-700 dark:text-gray-200">{{ note.content }}</p>
                       <div class="flex items-center justify-between mt-2">
-                        <p class="text-xs text-gray-400">{{ note.createdAt | date: 'medium' }}</p>
+                        <p class="text-xs text-gray-400 dark:text-gray-500">{{ note.createdAt | date: 'medium' }}</p>
                         <button (click)="deleteNote(note.id)" class="text-xs text-red-400 hover:text-red-600">Delete</button>
                       </div>
                     </div>
                   } @empty {
-                    <p class="text-center text-sm text-gray-500 py-6">No notes yet.</p>
+                    <p class="text-center text-sm text-gray-500 dark:text-gray-400 py-6">No notes yet.</p>
                   }
                 </div>
               </div>

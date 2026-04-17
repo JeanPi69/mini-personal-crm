@@ -19,8 +19,8 @@ import { User } from '../../../core/models/user.model';
     <div class="space-y-5">
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900">Users</h1>
-          <p class="text-sm text-gray-500 mt-0.5">Manage team members and roles</p>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Users</h1>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Manage team members and roles</p>
         </div>
         <a
           routerLink="/admin/users/new"
@@ -33,7 +33,7 @@ import { User } from '../../../core/models/user.model';
         </a>
       </div>
 
-      <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
         @if (loading()) {
           <div class="flex items-center justify-center py-16">
             <svg class="animate-spin h-8 w-8 text-primary-500" fill="none" viewBox="0 0 24 24">
@@ -43,31 +43,31 @@ import { User } from '../../../core/models/user.model';
           </div>
         } @else {
           <table class="w-full text-sm">
-            <thead class="bg-gray-50 border-b border-gray-200">
+            <thead class="bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700">
               <tr>
-                <th class="text-left px-5 py-3 font-medium text-gray-600">User</th>
-                <th class="text-left px-5 py-3 font-medium text-gray-600 hidden sm:table-cell">Email</th>
-                <th class="text-left px-5 py-3 font-medium text-gray-600">Role</th>
-                <th class="text-right px-5 py-3 font-medium text-gray-600">Actions</th>
+                <th class="text-left px-5 py-3 font-medium text-gray-600 dark:text-gray-300">User</th>
+                <th class="text-left px-5 py-3 font-medium text-gray-600 dark:text-gray-300 hidden sm:table-cell">Email</th>
+                <th class="text-left px-5 py-3 font-medium text-gray-600 dark:text-gray-300">Role</th>
+                <th class="text-right px-5 py-3 font-medium text-gray-600 dark:text-gray-300">Actions</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-gray-100">
+            <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
               @for (user of users(); track user.id) {
-                <tr class="hover:bg-gray-50 transition-colors">
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                   <td class="px-5 py-3">
                     <div class="flex items-center gap-3">
                       <div class="w-8 h-8 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center font-semibold text-xs shrink-0">
                         {{ user.avatar }}
                       </div>
                       <div>
-                        <p class="font-medium text-gray-900">{{ user.name }}</p>
+                        <p class="font-medium text-gray-900 dark:text-white">{{ user.name }}</p>
                         @if (user.id === currentUser()?.id) {
-                          <span class="text-xs text-primary-600">(you)</span>
+                          <span class="text-xs text-primary-600 dark:text-primary-300">(you)</span>
                         }
                       </div>
                     </div>
                   </td>
-                  <td class="px-5 py-3 text-gray-600 hidden sm:table-cell">{{ user.email }}</td>
+                  <td class="px-5 py-3 text-gray-600 dark:text-gray-300 hidden sm:table-cell">{{ user.email }}</td>
                   <td class="px-5 py-3">
                     <span
                       class="text-xs px-2 py-0.5 rounded-full font-medium"
@@ -110,11 +110,11 @@ import { User } from '../../../core/models/user.model';
       <!-- Delete dialog -->
       @if (deleteTarget()) {
         <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-          <div class="bg-white rounded-xl shadow-2xl p-6 max-w-sm w-full">
-            <h3 class="font-bold text-gray-900 text-lg">Delete User</h3>
-            <p class="text-gray-600 text-sm mt-2">Delete <strong>{{ deleteTarget()!.name }}</strong>?</p>
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-6 max-w-sm w-full">
+            <h3 class="font-bold text-gray-900 dark:text-white text-lg">Delete User</h3>
+            <p class="text-gray-600 dark:text-gray-300 text-sm mt-2">Delete <strong>{{ deleteTarget()!.name }}</strong>?</p>
             <div class="flex justify-end gap-3 mt-5">
-              <button (click)="deleteTarget.set(null)" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg">Cancel</button>
+              <button (click)="deleteTarget.set(null)" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg">Cancel</button>
               <button (click)="deleteUser()" class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg">Delete</button>
             </div>
           </div>

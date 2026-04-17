@@ -8,15 +8,6 @@
       "role": "admin",
       "avatar": "AU",
       "createdAt": "2024-01-01T00:00:00.000Z"
-    },
-    {
-      "id": "2",
-      "name": "Regular User",
-      "email": "user@crm.com",
-      "password": "user123",
-      "role": "user",
-      "avatar": "RU",
-      "createdAt": "2024-01-02T00:00:00.000Z"
     }
   ],
   "contacts": [
@@ -122,15 +113,14 @@
   ],
   "deals": [
     {
-      "id": "1",
       "title": "TechCorp Software License",
       "contactId": "1",
       "value": 15000,
       "stage": "negotiation",
       "description": "Annual software license renewal for 50 seats",
-      "createdAt": "2024-02-15T09:00:00.000Z",
-      "updatedAt": "2026-04-17T01:48:50.773Z",
-      "assignedTo": "1"
+      "assignedTo": "1",
+      "updatedAt": "2026-04-17T04:38:13.376Z",
+      "id": "1"
     },
     {
       "id": "3",
@@ -140,7 +130,7 @@
       "stage": "lead",
       "description": "Brand identity redesign project",
       "createdAt": "2024-03-01T08:00:00.000Z",
-      "updatedAt": "2024-03-01T08:00:00.000Z",
+      "updatedAt": "2026-04-17T04:50:33.080Z",
       "assignedTo": "2"
     },
     {
@@ -162,7 +152,7 @@
       "stage": "closed-lost",
       "description": "Q1 digital marketing campaign setup",
       "createdAt": "2024-01-20T10:00:00.000Z",
-      "updatedAt": "2026-04-17T01:48:54.413Z",
+      "updatedAt": "2026-04-17T04:02:14.667Z",
       "assignedTo": "2"
     },
     {
@@ -173,7 +163,7 @@
       "stage": "proposal",
       "description": "Point-of-sale system integration across 5 locations",
       "createdAt": "2024-03-05T09:00:00.000Z",
-      "updatedAt": "2026-04-17T02:00:29.881Z",
+      "updatedAt": "2026-04-17T04:38:04.060Z",
       "assignedTo": "1"
     },
     {
@@ -235,18 +225,6 @@
       "description": "Prepare live demo of POS integration capabilities",
       "assignedTo": "1",
       "createdAt": "2024-03-28T09:00:00.000Z"
-    },
-    {
-      "id": "6",
-      "title": "Review HealthPlus requirements",
-      "contactId": "7",
-      "dealId": "7",
-      "dueDate": "2024-04-08T17:00:00.000Z",
-      "status": "in-progress",
-      "priority": "high",
-      "description": "Technical review of app feature requirements document",
-      "assignedTo": "2",
-      "createdAt": "2024-03-29T10:00:00.000Z"
     }
   ],
   "notes": [
