@@ -1,59 +1,76 @@
-# MiniPersonalCrm
+# Mini Personal CRM
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.2.
+A full-featured CRM web application built as a portfolio project to showcase modern Angular development practices. Manage contacts, deals, tasks, and users — all with a clean UI, dark mode, and role-based access control.
 
-## Development server
+## Tech Stack
 
-To start a local development server, run:
+- **Angular 20** — Zoneless, standalone components, Signals, `OnPush` change detection
+- **TailwindCSS v3** — Utility-first styling with full dark mode support (`darkMode: 'class'`)
+- **Angular CDK** — Drag & drop for the Kanban deal board
+- **Chart.js** — Dashboard charts (bar + doughnut)
+- **RxJS** — Reactive data flows and HTTP interactions
+- **json-server** — REST API mock backend
 
-```bash
-ng serve
-```
+## Features
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **Authentication** — Login with JWT-based auth, route guards and HTTP interceptors
+- **Contacts** — List, create, edit, delete contacts with status filtering and search
+- **Deals** — Kanban board with drag & drop between pipeline stages
+- **Tasks** — Task list with priority/status filters and due date tracking
+- **Dashboard** — Summary cards and charts with deal pipeline and task breakdown
+- **Admin** — User management with role-based access (admin / user)
+- **Dark Mode** — System-aware toggle persisted to localStorage
+- **Global Search** — Cross-entity search from the navbar
+- **Unit Tests** — Component and service tests with Jasmine/Karma
 
-## Code scaffolding
+## Getting Started
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+**Prerequisites:** Node.js 18+
 
 ```bash
-ng build
+# Install dependencies
+npm install
+
+# Start both the API server and Angular dev server
+npm run dev
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+The app will be available at `http://localhost:4200` and the API at `http://localhost:3000`.
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### Individual commands
 
 ```bash
-ng test
+npm start          # Angular dev server only
+npm run server     # json-server API only
+npm test           # Run unit tests
+npm run build      # Production build
 ```
 
-## Running end-to-end tests
+## Project Structure
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+```
+src/
+├── app/
+│   ├── core/
+│   │   ├── guards/          # Auth & role guards
+│   │   ├── interceptors/    # JWT & error interceptors
+│   │   ├── models/          # TypeScript interfaces
+│   │   └── services/        # Business logic & API calls
+│   └── features/
+│       ├── auth/            # Login page
+│       ├── contacts/        # Contact list, detail, form
+│       ├── deals/           # Kanban board & deal form
+│       ├── tasks/           # Task list & form
+│       ├── dashboard/       # Charts & summary cards
+│       └── admin/           # User management
+└── styles.scss
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Angular Patterns Used
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `input()` / `output()` signal-based component API
+- `computed()` for derived state
+- `inject()` function for dependency injection
+- Native control flow (`@if`, `@for`, `@switch`)
+- Lazy-loaded feature routes
+- `ChangeDetectionStrategy.OnPush` on all components
