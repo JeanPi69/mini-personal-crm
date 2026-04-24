@@ -8,6 +8,15 @@
       "role": "admin",
       "avatar": "AU",
       "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "name": "Regular User",
+      "email": "user@crm.com",
+      "password": "user123",
+      "role": "user",
+      "avatar": "RU",
+      "createdAt": "2026-04-24T03:44:25.503Z",
+      "id": "Xlm3DIK"
     }
   ],
   "contacts": [
@@ -116,10 +125,10 @@
       "title": "TechCorp Software License",
       "contactId": "1",
       "value": 15000,
-      "stage": "negotiation",
+      "stage": "proposal",
       "description": "Annual software license renewal for 50 seats",
       "assignedTo": "1",
-      "updatedAt": "2026-04-17T04:38:13.376Z",
+      "updatedAt": "2026-04-24T03:35:12.136Z",
       "id": "1"
     },
     {
@@ -141,7 +150,7 @@
       "stage": "closed-won",
       "description": "Full cloud infrastructure migration to AWS",
       "createdAt": "2024-01-10T09:00:00.000Z",
-      "updatedAt": "2026-04-17T01:48:52.797Z",
+      "updatedAt": "2026-04-24T03:39:12.275Z",
       "assignedTo": "1"
     },
     {
@@ -160,10 +169,10 @@
       "title": "RetailMax POS Integration",
       "contactId": "6",
       "value": 12000,
-      "stage": "proposal",
+      "stage": "negotiation",
       "description": "Point-of-sale system integration across 5 locations",
       "createdAt": "2024-03-05T09:00:00.000Z",
-      "updatedAt": "2026-04-17T04:38:04.060Z",
+      "updatedAt": "2026-04-24T03:35:11.453Z",
       "assignedTo": "1"
     },
     {
@@ -203,16 +212,15 @@
       "createdAt": "2024-03-25T08:00:00.000Z"
     },
     {
-      "id": "4",
       "title": "Onboarding call with Cloud Solutions",
       "contactId": "4",
       "dealId": "4",
-      "dueDate": "2024-03-28T10:00:00.000Z",
+      "dueDate": "2024-03-28T00:00:00.000Z",
       "status": "completed",
       "priority": "high",
       "description": "Kickoff meeting for AWS migration project",
       "assignedTo": "1",
-      "createdAt": "2024-03-01T09:00:00.000Z"
+      "id": "4"
     },
     {
       "id": "5",

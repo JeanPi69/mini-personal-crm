@@ -27,7 +27,7 @@ const NAV_ITEMS: NavItem[] = [
       [style.width]="collapsed() ? '64px' : '220px'"
     >
       <!-- Logo -->
-      <div class="flex items-center gap-3 px-4 py-5 border-b border-gray-700 min-h-[64px]">
+      <div class="h-16 flex items-center gap-3 px-4 py-5 border-b border-gray-700 min-h-[64px]">
         <div class="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center shrink-0">
           <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
             <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />

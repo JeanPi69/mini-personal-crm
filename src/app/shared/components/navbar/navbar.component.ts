@@ -9,7 +9,7 @@ import { SearchService } from '../../../core/services/search.service';
   imports: [RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <header class="h-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 flex items-center gap-3 px-4 shrink-0">
+    <header class="h-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 flex items-center gap-3 px-4 py-5 shrink-0 min-h-[64px]">
       <!-- Left: menu toggle -->
       <button
         (click)="toggleSidebar.emit()"

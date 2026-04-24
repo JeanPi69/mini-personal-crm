@@ -1,12 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { Router, UrlTree, provideRouter } from '@angular/router';
+import { UrlTree, provideRouter } from '@angular/router';
 import { provideZonelessChangeDetection, signal } from '@angular/core';
 import { authGuard } from './auth.guard';
 import { AuthService } from '../services/auth.service';
 
 describe('authGuard', () => {
-  let router: Router;
-
   const runGuard = () =>
     TestBed.runInInjectionContext(() => authGuard({} as never, {} as never));
 
@@ -21,7 +19,6 @@ describe('authGuard', () => {
         provideRouter([]),
       ],
     });
-    router = TestBed.inject(Router);
   });
 
   it('should return true when user is authenticated', () => {
