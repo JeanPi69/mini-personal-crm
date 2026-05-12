@@ -1,0 +1,57 @@
+name: Deploy Mini CRM
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repo
+        uses: actions/checkout@v4
+
+      - name: Instalar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Restaurar caché de build de Angular
+        uses: actions/cache@v5
+        with:
+          path: .angular/cache
+          key: ${{ runner.os }}-angular-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-angular-
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Build Angular
+        run: npm run build
+
+      - name: Deploy al VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: 72.61.62.91
+          username: root
+          key: ${{ secrets.VPS_SSH_KEY }}
+          source: "dist/mini-personal-crm/browser/*"
+          target: "/var/www/mini-crm"
+          strip_components: 1
+
+      - name: Reload Nginx
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 72.61.62.91
+          username: root
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            systemctl reload nginx
